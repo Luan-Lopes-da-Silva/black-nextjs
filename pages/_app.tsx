@@ -1,9 +1,14 @@
+import { CartContextProvider } from '@/src/hooks/useCart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AppProps } from 'next/app';
 
 
 function MyApp({Component,pageProps}:AppProps){
-return <Component {...pageProps}/>  
+return(
+<CartContextProvider>
+<Component {...pageProps}/>  
+</CartContextProvider>  
+)
 }
 
 export default MyApp

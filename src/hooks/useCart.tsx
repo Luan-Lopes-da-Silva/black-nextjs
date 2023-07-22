@@ -1,8 +1,9 @@
-import { ReactNode, createContext, useEffect, useState } from "react"
+import { ReactNode, createContext, useContext, useEffect, useState } from "react"
 import { ProductType } from "../services/products"
 
+
 type CartContextType ={
-   cart: ProductType
+   cart: ProductType[]
    addProduct:(product:ProductType) =>void
    removeProduct:(productId:number) =>void
 }
@@ -28,5 +29,23 @@ children:ReactNode
   setCart(updatedCart) 
   }
 
-  const removeProduct
+  const removeProduct = (productId:number) => {
+    const productIndex = cart.findIndex(product=>product.id === productId)
+
+    if(productIndex !== -1){
+      const updateCart = [...cart]
+      updateCart.splice(productIndex,1)
+      localStorage.setItem('shopping-cart', JSON.stringify(updateCart))
+      setCart(updateCart)
+    }
+  }
+
+  return(
+  <CartContext.Provider
+  value = {{cart,addProduct,removeProduct}}>
+  {props.children}
+  </CartContext.Provider>  
+  )
 }
+
+export const useCart = ()=>  useContext(CartContext)
